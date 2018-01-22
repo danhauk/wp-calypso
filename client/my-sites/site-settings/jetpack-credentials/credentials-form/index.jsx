@@ -21,7 +21,7 @@ import FormInputValidation from 'components/forms/form-input-validation';
 import FormPasswordInput from 'components/forms/form-password-input';
 import Gridicon from 'gridicons';
 import { deleteCredentials, updateCredentials } from 'state/jetpack/credentials/actions';
-import { getSelectedSiteId } from 'state/ui/selectors';
+import { getSelectedSiteId, getSelectedSiteSlug } from 'state/ui/selectors';
 import { isUpdatingJetpackCredentials } from 'state/selectors';
 
 export class CredentialsForm extends Component {
@@ -29,7 +29,7 @@ export class CredentialsForm extends Component {
 		showPrivateKeyField: false,
 		form: {
 			protocol: this.props.protocol,
-			host: this.props.host,
+			host: this.props.host ? this.props.host : this.props.hostHint,
 			port: this.props.port,
 			user: this.props.user,
 			pass: this.props.pass,
@@ -243,6 +243,7 @@ export class CredentialsForm extends Component {
 
 const mapStateToProps = state => ( {
 	formIsSubmitting: isUpdatingJetpackCredentials( state, getSelectedSiteId( state ) ),
+	hostHint: getSelectedSiteSlug( state, getSelectedSiteId( state ) ),
 } );
 
 export default connect( mapStateToProps, { deleteCredentials, updateCredentials } )(
