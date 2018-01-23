@@ -19,7 +19,7 @@ import wpcom from 'lib/wp';
 import Emitter from 'lib/mixins/emitter';
 import userUtils from './shared-utils';
 import localforage from 'lib/localforage';
-import fetchVariations from 'lib/abtest/fetch-variations';
+import { getActiveTestNames } from 'lib/abtest/fetch-variations';
 
 /**
  * User component
@@ -138,25 +138,16 @@ User.prototype.fetch = function() {
 	this.fetching = true;
 	debug( 'Getting user from api' );
 
-	me.get(
-		{ meta: 'flags' },
-		( error, data ) => {
-			if ( error ) {
-				this.handleFetchFailure( error );
-				return;
-			}
+	me.get( { meta: 'flags', abtests: getActiveTestNames() }, ( error, data ) => {
+		if ( error ) {
+			this.handleFetchFailure( error );
+			return;
+		}
 
-			const userData = userUtils.filterUserObject( data );
-			const { id: userId } = userData;
-			debug( 'User fetch successful. Now fetching assigned A/B test variations...' );
-			this.fetchABVariations( userId, ( variationError, variationData ) => {
-				const abtests = this.handleFetchABVariationsResponse( variationError, variationData );
-				if ( abtests !== null && typeof abtests === 'object' ) {
-					userData.abtests = abtests;
-				}
-				this.handleFetchSuccess( userData );
-			} );
-		} );
+		const userData = userUtils.filterUserObject( data );
+		this.handleFetchSuccess( userData );
+		debug( 'User fetch successful.' );
+	} );
 };
 
 /**
@@ -194,6 +185,9 @@ User.prototype.handleFetchSuccess = function( userData ) {
 
 	// Store user info in `this.data` and localstorage as `wpcom_user`
 	store.set( 'wpcom_user', userData );
+	if ( userData.abtests ) {
+		store.set( 'ABTests', userData.abtests );
+	}
 	this.data = userData;
 	if ( this.settings ) {
 		debug( 'Retaining fetched settings data in new user data' );
@@ -202,39 +196,6 @@ User.prototype.handleFetchSuccess = function( userData ) {
 	this.initialized = true;
 	this.emit( 'change' );
 	debug( 'User successfully retrieved' );
-};
-
-/**
- * Fetch the current user's A/B variations from WordPress.com REST API
- *
- * @param {number} userId user ID
- * @param {Function} callback function to be called upon request completion, uses param signature (error, response)
- * @returns {Object} wpcomRequest
- */
-User.prototype.fetchABVariations = function( userId, callback ) {
-	return fetchVariations( userId, callback );
-};
-
-/**
- * Fetch the current user's A/B variations from WordPress.com REST API and persist
- * it into localStorage.
- *
- * @param {Error|undefined} variationError response error
- * @param {Object|undefined} variationData object containing user's A/B test variation assignment data
- * @returns {Object|null} containing variation data. Null if no data was fetched.
- */
-User.prototype.handleFetchABVariationsResponse = function(
-	variationError,
-	variationData
-) {
-	if ( variationError ) {
-		debug( 'Something went wrong trying to get A/B test variations.' );
-		return null;
-	}
-
-	debug( 'A/B variations successfully retrieved' );
-	store.set( 'ABTests', variationData );
-	return variationData;
 };
 
 User.prototype.getLanguage = function() {
