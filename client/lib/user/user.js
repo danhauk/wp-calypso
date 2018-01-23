@@ -19,7 +19,7 @@ import wpcom from 'lib/wp';
 import Emitter from 'lib/mixins/emitter';
 import userUtils from './shared-utils';
 import localforage from 'lib/localforage';
-import { getActiveTestNames } from 'lib/abtest/fetch-variations';
+import { getActiveTestNames } from 'lib/abtest/utility';
 
 /**
  * User component
