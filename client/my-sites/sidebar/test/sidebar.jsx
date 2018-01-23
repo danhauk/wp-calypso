@@ -13,6 +13,7 @@ jest.mock( 'lib/abtest', () => ( {
 	abtest: () => '',
 } ) );
 jest.mock( 'lib/analytics', () => ( {} ) );
+jest.mock( 'components/popover', () => require( 'components/empty-component' ) );
 jest.mock( 'my-sites/current-site', () => require( 'components/empty-component' ) );
 jest.mock( 'my-sites/sidebar/manage-menu', () => require( 'components/empty-component' ) );
 
