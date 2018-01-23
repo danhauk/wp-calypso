@@ -1643,26 +1643,6 @@ Undocumented.prototype.saveABTestData = function( name, variation, callback ) {
 };
 
 /**
- * Fetch a user's assigned A/B test variation given an array of test names
- *
- * @param {string[]} testNames - Array of A/B test names.
- * @param {Function} callback - Function to invoke when request is complete
- * @api public
- * @returns {Object} wpcomRequest, response body in format { [testName]: assignedVariation }
- */
-Undocumented.prototype.getABTestData = function( testNames, callback ) {
-	const body = { testNames: testNames.join( ',' ) };
-	debug( 'GET /me/abtests' );
-	return this.wpcom.req.get(
-		{
-			path: '/me/abtests',
-			body,
-		},
-		callback
-	);
-};
-
-/**
  * Sign up for a new user account
  * Create a new user
  *
