@@ -42,6 +42,7 @@ export default {
 		const user = {};
 		const allowedKeys = [
 			'ID',
+			'abtests',
 			'display_name',
 			'username',
 			'avatar_URL',
