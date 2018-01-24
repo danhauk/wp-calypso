@@ -16,6 +16,7 @@ import Card from 'components/card';
 import DocumentHead from 'components/data/document-head';
 import FormattedHeader from 'components/formatted-header';
 import FormFieldset from 'components/forms/form-fieldset';
+import FormInputValidation from 'components/forms/form-input-validation';
 import FormLabel from 'components/forms/form-label';
 import FormTextInput from 'components/forms/form-text-input';
 import PageViewTracker from 'lib/analytics/page-view-tracker';
@@ -70,6 +71,12 @@ class JetpackOnboardingBusinessAddressStep extends React.PureComponent {
 		page( this.props.getForwardUrl() );
 	};
 
+	renderValidation = fieldContent => {
+		const isError = fieldContent ? false : true;
+
+		return <FormInputValidation isError={ isError } text="Required field." />;
+	};
+
 	render() {
 		const { isRequestingSettings, translate } = this.props;
 		const headerText = translate( 'Add a business address.' );
@@ -97,9 +104,9 @@ class JetpackOnboardingBusinessAddressStep extends React.PureComponent {
 									disabled={ isRequestingSettings }
 									id={ fieldName }
 									onChange={ this.getChangeHandler( fieldName ) }
-									required={ fieldName !== 'state' }
 									value={ this.state[ fieldName ] }
 								/>
+								{ fieldName !== 'state' ? this.renderValidation( this.state[ fieldName ] ) : null }
 							</FormFieldset>
 						) ) }
 						<Button disabled={ isRequestingSettings } primary type="submit">
