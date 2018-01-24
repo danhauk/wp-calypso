@@ -315,6 +315,7 @@ export default {
 			'videodetails',
 			'podcastdownloads',
 			'searchterms',
+			'annualstats',
 		];
 		let momentSiteZone = i18n.moment();
 		const basePath = sectionify( context.path );
