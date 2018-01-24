@@ -85,28 +85,33 @@ class AnnualSiteStats extends Component {
 	renderTable( data, strings ) {
 		const keys = Object.keys( strings );
 		return (
-			<table>
-				<thead>
-					<tr>
-						{ keys.map( key => (
-							<th scope="col" key={ key }>
-								{ strings[ key ] }
-							</th>
-						) ) }
-					</tr>
-				</thead>
-				<tbody>
-					{ data.map( ( row, i ) => (
-						<tr key={ i }>
-							{ keys.map( ( key, j ) => (
-								<td scope={ j === 0 ? 'row' : null } key={ j }>
-									{ row[ key ] }
-								</td>
+			<div className="annual-site-stats__table-wrapper">
+				<table>
+					<thead>
+						<tr>
+							{ keys.map( key => (
+								<th scope="col" key={ key }>
+									{ strings[ key ] }
+								</th>
 							) ) }
 						</tr>
-					) ) }
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						{ data.map( ( row, i ) => (
+							<tr key={ i }>
+								{ keys.map( ( key, j ) => {
+									const Cell = j === 0 ? 'th' : 'td';
+									return (
+										<Cell scope={ j === 0 ? 'row' : null } key={ j }>
+											{ row[ key ] }
+										</Cell>
+									);
+								} ) }
+							</tr>
+						) ) }
+					</tbody>
+				</table>
+			</div>
 		);
 	}
 

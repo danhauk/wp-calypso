@@ -76,3 +76,19 @@
 		}
 	}
 }
+
+.annual-site-stats__table-wrapper {
+	overflow-x: scroll;
+	width: 100%;
+	margin-left: 120px;
+
+	td,
+	th {
+		min-width: 120px;
+	}
+
+	th:first-child {
+		position: fixed;
+		transform: translateX(-120px);
+	}
+}
