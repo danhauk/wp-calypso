@@ -36,55 +36,53 @@ class AnnualSiteStats extends Component {
 		isWidget: false,
 	};
 
-	renderWidgetContent( data ) {
-		const { translate, numberFormat } = this.props;
+	renderWidgetContent( data, strings ) {
+		const { numberFormat } = this.props;
 		return (
 			<div className="annual-site-stats__content">
 				<div className="annual-site-stats__stat is-year">
-					<div className="annual-site-stats__stat-title">{ translate( 'year' ) }</div>
+					<div className="annual-site-stats__stat-title">{ strings.year }</div>
 					<div className="annual-site-stats__stat-figure is-large">{ data.year }</div>
 				</div>
 				<div className="annual-site-stats__stat">
-					<div className="annual-site-stats__stat-title">{ translate( 'total posts' ) }</div>
+					<div className="annual-site-stats__stat-title">{ strings.total_posts }</div>
 					<div className="annual-site-stats__stat-figure is-large">
 						{ numberFormat( data.total_posts ) }
 					</div>
 				</div>
 				<div className="annual-site-stats__stat">
-					<div className="annual-site-stats__stat-title">{ translate( 'total comments' ) }</div>
+					<div className="annual-site-stats__stat-title">{ strings.total_comments }</div>
 					<div className="annual-site-stats__stat-figure">
 						{ numberFormat( data.total_comments ) }
 					</div>
 				</div>
 				<div className="annual-site-stats__stat">
-					<div className="annual-site-stats__stat-title">
-						{ translate( 'avg comments per post' ) }
-					</div>
+					<div className="annual-site-stats__stat-title">{ strings.avg_comments }</div>
 					<div className="annual-site-stats__stat-figure">
 						{ numberFormat( data.avg_comments ) }
 					</div>
 				</div>
 				<div className="annual-site-stats__stat">
-					<div className="annual-site-stats__stat-title">{ translate( 'total likes' ) }</div>
+					<div className="annual-site-stats__stat-title">{ strings.total_likes }</div>
 					<div className="annual-site-stats__stat-figure">{ numberFormat( data.total_likes ) }</div>
 				</div>
 				<div className="annual-site-stats__stat">
-					<div className="annual-site-stats__stat-title">{ translate( 'avg likes per post' ) }</div>
+					<div className="annual-site-stats__stat-title">{ strings.avg_likes }</div>
 					<div className="annual-site-stats__stat-figure">{ numberFormat( data.avg_likes ) }</div>
 				</div>
 				<div className="annual-site-stats__stat">
-					<div className="annual-site-stats__stat-title">{ translate( 'total words' ) }</div>
+					<div className="annual-site-stats__stat-title">{ strings.total_words }</div>
 					<div className="annual-site-stats__stat-figure">{ numberFormat( data.total_words ) }</div>
 				</div>
 				<div className="annual-site-stats__stat">
-					<div className="annual-site-stats__stat-title">{ translate( 'avg words per post' ) }</div>
+					<div className="annual-site-stats__stat-title">{ strings.avg_words }</div>
 					<div className="annual-site-stats__stat-figure">{ numberFormat( data.avg_words ) }</div>
 				</div>
 			</div>
 		);
 	}
 
-	renderBasic( data, strings ) {
+	renderTable( data, strings ) {
 		const keys = Object.keys( strings );
 		return (
 			<table>
@@ -143,9 +141,9 @@ class AnnualSiteStats extends Component {
 					<StatsModulePlaceholder isLoading={ isLoading } />
 					{ isError && <ErrorPanel message={ translate( 'Oops! Something went wrong.' ) } /> }
 					{ noData && <ErrorPanel message={ noDataMsg } /> }
-					{ isWidget && currentYearData && this.renderWidgetContent( currentYearData ) }
-					{ isWidget && previousYearData && this.renderWidgetContent( previousYearData ) }
-					{ ! isWidget && years && this.renderBasic( years, strings ) }
+					{ isWidget && currentYearData && this.renderWidgetContent( currentYearData, strings ) }
+					{ isWidget && previousYearData && this.renderWidgetContent( previousYearData, strings ) }
+					{ ! isWidget && years && this.renderTable( years, strings ) }
 				</Card>
 			</div>
 		);
