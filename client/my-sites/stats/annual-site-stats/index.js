@@ -87,11 +87,23 @@ class AnnualSiteStats extends Component {
 		return (
 			<table>
 				<thead>
-					<tr>{ keys.map( key => <th key={ key }>{ strings[ key ] }</th> ) }</tr>
+					<tr>
+						{ keys.map( key => (
+							<th scope="col" key={ key }>
+								{ strings[ key ] }
+							</th>
+						) ) }
+					</tr>
 				</thead>
 				<tbody>
 					{ data.map( ( row, i ) => (
-						<tr key={ i }>{ keys.map( ( key, j ) => <td key={ j }>{ row[ key ] }</td> ) }</tr>
+						<tr key={ i }>
+							{ keys.map( ( key, j ) => (
+								<td scope={ j === 0 ? 'row' : null } key={ j }>
+									{ row[ key ] }
+								</td>
+							) ) }
+						</tr>
 					) ) }
 				</tbody>
 			</table>
