@@ -214,7 +214,7 @@ class StatsSummary extends Component {
 				);
 				break;
 			case 'annualstats':
-				title = translate( 'Annual Stats' );
+				title = translate( 'Annual Site Stats' );
 				summaryView = <AnnualSiteStats key="annualstats" />;
 				break;
 		}
